@@ -26,6 +26,10 @@ inputs:
     description: 'The name of the person/machine that created this build. Consider using `github.event.pusher.name` for the name of the person who made the commit that triggered this workflow.'
     required: false
     default: 'Github Actions'
+  autoAssignRelease:
+    description: '(boolean) Automatically associate this build with any new error events and sessions that are received for the releaseStage until a subsequent build notification is received'
+    required: false
+    default: true
   failCiIfError:
     description: 'If true then CI will fail if this action fails.'
     required: false

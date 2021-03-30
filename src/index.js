@@ -26,6 +26,7 @@ try {
   const revision =
     core.getInput('sourceControlRevision') || process.env.GITHUB_SHA;
   const builderName = core.getInput('builderName');
+  const autoAssignRelease = core.getInput('autoAssignRelease');
   failCiIfError = core.getInput('failCiIfError');
 
   console.log(`Reporting build for version ${appVersion}`);
@@ -34,6 +35,7 @@ try {
     appVersion,
     releaseStage,
     builderName,
+    autoAssignRelease,
     sourceControl: { provider, repository, revision },
   })
     .then(() => core.info('Build reported to Bugsnag successfully.'))
