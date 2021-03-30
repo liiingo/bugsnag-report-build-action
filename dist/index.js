@@ -19,7 +19,13 @@ module.exports =
 /******/ 		};
 /******/
 /******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 		var threw = true;
+/******/ 		try {
+/******/ 			modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 			threw = false;
+/******/ 		} finally {
+/******/ 			if(threw) delete installedModules[moduleId];
+/******/ 		}
 /******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
@@ -5538,14 +5544,16 @@ function simpleEnd(buf) {
 const reportBuild = __webpack_require__(198);
 const core = __webpack_require__(470);
 const fs = __webpack_require__(747);
-const path = __webpack_require__(622)
+const path = __webpack_require__(622);
 
 let failCiIfError = false;
 
 function getPackageVersion() {
-  const packageJson = fs.readFileSync(path.join('./', 'package.json')).toString();
+  const packageJson = fs
+    .readFileSync(path.join('./', 'package.json'))
+    .toString();
   return JSON.parse(packageJson).version;
-};
+}
 
 try {
   const apiKey = core.getInput('apiKey');
@@ -5556,8 +5564,11 @@ try {
   const appVersion = core.getInput('appVersion') || getPackageVersion();
   const releaseStage = core.getInput('releaseStage');
   const provider = core.getInput('sourceControlProvider');
-  const repository = core.getInput('sourceControlRepository') || process.env.GITHUB_REPOSITORY;
-  const revision = core.getInput('sourceControlRevision') || process.env.GITHUB_SHA;
+  const repository =
+    core.getInput('sourceControlRepository') || process.env.GITHUB_REPOSITORY;
+  const revision =
+    core.getInput('sourceControlRevision') || process.env.GITHUB_SHA;
+  const builderName = core.getInput('builderName');
   failCiIfError = core.getInput('failCiIfError');
 
   console.log(`Reporting build for version ${appVersion}`);
@@ -5565,6 +5576,7 @@ try {
     apiKey,
     appVersion,
     releaseStage,
+    builderName,
     sourceControl: { provider, repository, revision },
   })
     .then(() => core.info('Build reported to Bugsnag successfully.'))

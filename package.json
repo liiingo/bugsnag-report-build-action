@@ -11,7 +11,12 @@
     "type": "git",
     "url": "git+https://github.com/lhansford/bugsnag-report-build-action.git"
   },
-  "keywords": ["bugsnag", "github", "action", "actions"],
+  "keywords": [
+    "bugsnag",
+    "github",
+    "action",
+    "actions"
+  ],
   "author": "Luke Hansford <mail@lukehansford.me> (http://lukehansford.me/)",
   "license": "MIT",
   "bugs": {
