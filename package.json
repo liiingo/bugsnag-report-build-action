@@ -1,6 +1,6 @@
 {
   "name": "bugsnag-report-build-action",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "Report a build to Bugsnag using Github Actions",
   "main": "dist/index.js",
   "scripts": {
