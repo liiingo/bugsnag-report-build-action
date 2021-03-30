@@ -23,7 +23,7 @@ inputs:
     description: 'The source control revision. The default is the SHA for the running Github Action.'
     required: false
   builderName:
-    description: 'The name of the person/machine that created this build. Consider using ${{ github.event.pusher.name }} for the name of the person who made the commit that triggered this workflow.'
+    description: 'The name of the person/machine that created this build. Consider using `github.event.pusher.name` for the name of the person who made the commit that triggered this workflow.'
     required: false
     default: 'Github Actions'
   failCiIfError:
