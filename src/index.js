@@ -1,14 +1,16 @@
 const reportBuild = require('bugsnag-build-reporter');
 const core = require('@actions/core');
 const fs = require('fs');
-const path = require('path')
+const path = require('path');
 
 let failCiIfError = false;
 
 function getPackageVersion() {
-  const packageJson = fs.readFileSync(path.join('./', 'package.json')).toString();
+  const packageJson = fs
+    .readFileSync(path.join('./', 'package.json'))
+    .toString();
   return JSON.parse(packageJson).version;
-};
+}
 
 try {
   const apiKey = core.getInput('apiKey');
@@ -19,8 +21,11 @@ try {
   const appVersion = core.getInput('appVersion') || getPackageVersion();
   const releaseStage = core.getInput('releaseStage');
   const provider = core.getInput('sourceControlProvider');
-  const repository = core.getInput('sourceControlRepository') || process.env.GITHUB_REPOSITORY;
-  const revision = core.getInput('sourceControlRevision') || process.env.GITHUB_SHA;
+  const repository =
+    core.getInput('sourceControlRepository') || process.env.GITHUB_REPOSITORY;
+  const revision =
+    core.getInput('sourceControlRevision') || process.env.GITHUB_SHA;
+  const builderName = core.getInput('builderName');
   failCiIfError = core.getInput('failCiIfError');
 
   console.log(`Reporting build for version ${appVersion}`);
@@ -28,6 +33,7 @@ try {
     apiKey,
     appVersion,
     releaseStage,
+    builderName,
     sourceControl: { provider, repository, revision },
   })
     .then(() => core.info('Build reported to Bugsnag successfully.'))
