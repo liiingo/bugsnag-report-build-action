@@ -26,7 +26,7 @@ try {
   const revision =
     core.getInput('sourceControlRevision') || process.env.GITHUB_SHA;
   const builderName = core.getInput('builderName');
-  const autoAssignRelease = core.getInput('autoAssignRelease');
+  const autoAssignRelease = core.getInput('autoAssignRelease') === 'true';
   failCiIfError = core.getInput('failCiIfError');
 
   console.log(`Reporting build for version ${appVersion}`);
